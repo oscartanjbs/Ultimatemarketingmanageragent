@@ -12,6 +12,8 @@ import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Progress } from "../components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
+import productVideo from "figma:asset/5fae46c39ca8fe7c3deb1a6dc03daa9eec8b5b9e.png";
 
 // Mock data - in real app this would come from AI analysis
 const productAnalysis = {
@@ -148,6 +150,7 @@ const trendingTopics = [
 export default function CampaignStrategy() {
   const navigate = useNavigate();
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Instagram", "YouTube"]);
+  const [showVideoDialog, setShowVideoDialog] = useState(false);
 
   const togglePlatform = (platform: string) => {
     if (selectedPlatforms.includes(platform)) {
@@ -220,21 +223,29 @@ export default function CampaignStrategy() {
                 <CardTitle className="text-lg">Your Product</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="aspect-square rounded-lg overflow-hidden mb-4">
+                <div 
+                  className="aspect-square rounded-lg overflow-hidden mb-4 cursor-pointer hover:opacity-90 transition-opacity relative group"
+                  onClick={() => setShowVideoDialog(true)}
+                >
                   <img 
                     src={productImage} 
                     alt="Product" 
                     className="w-full h-full object-cover"
                   />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
+                      <Play className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" className="flex-1">
                     <Camera className="w-4 h-4 mr-2" />
                     Retake
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <ImageIcon className="w-4 h-4 mr-2" />
-                    Edit
+                  <Button variant="outline" size="sm" className="flex-1" onClick={() => setShowVideoDialog(true)}>
+                    <Play className="w-4 h-4 mr-2" />
+                    Preview
                   </Button>
                 </div>
               </CardContent>
@@ -492,6 +503,27 @@ export default function CampaignStrategy() {
           </div>
         </div>
       </div>
+
+      {/* Video Dialog */}
+      <Dialog open={showVideoDialog} onOpenChange={setShowVideoDialog}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Product Video Preview</DialogTitle>
+          </DialogHeader>
+          <div className="mt-4">
+            <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+              <video 
+                src={productVideo} 
+                controls
+                autoPlay
+                className="w-full h-full"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
