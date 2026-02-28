@@ -409,14 +409,14 @@ export default function CampaignStrategy() {
                               <PlatformIcon className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                              <CardTitle className="text-xl">{platform.name}</CardTitle>
+                              <CardTitle className="text-xl text-white">{platform.name}</CardTitle>
                               <div className="flex items-center gap-2 mt-1">
                                 <Badge className={getPriorityColor(platform.priority)}>
                                   {platform.priority} Priority
                                 </Badge>
                                 <div className="flex items-center gap-1 text-sm">
-                                  <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                                  <span className="text-muted-foreground">Score: {platform.score}/100</span>
+                                  <BarChart3 className="w-4 h-4 text-gray-400" />
+                                  <span className="text-gray-400">Score: {platform.score}/100</span>
                                 </div>
                               </div>
                             </div>
@@ -444,8 +444,8 @@ export default function CampaignStrategy() {
                           <TabsContent value="reasoning" className="space-y-2 mt-4">
                             {platform.reasoning.map((reason, i) => (
                               <div key={i} className="flex items-start gap-2">
-                                <Zap className="w-4 h-4 text-purple-500 mt-1 flex-shrink-0" />
-                                <p className="text-sm">{reason}</p>
+                                <Zap className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
+                                <p className="text-sm text-gray-300">{reason}</p>
                               </div>
                             ))}
                           </TabsContent>
@@ -453,21 +453,21 @@ export default function CampaignStrategy() {
                           <TabsContent value="strategy" className="space-y-3 mt-4">
                             <div className="grid grid-cols-2 gap-3">
                               {Object.entries(platform.contentStrategy).map(([key, value]) => (
-                                <div key={key} className="p-3 rounded-lg bg-white border">
-                                  <p className="text-xs text-muted-foreground capitalize">{key.replace(/([A-Z])/g, ' $1')}</p>
-                                  <p className="font-bold text-lg">{value}</p>
+                                <div key={key} className="p-3 rounded-lg bg-white/10 border border-white/20">
+                                  <p className="text-xs text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1')}</p>
+                                  <p className="font-bold text-lg text-white">{value}</p>
                                 </div>
                               ))}
                             </div>
                             <div className="flex items-center gap-2 text-sm">
-                              <Eye className="w-4 h-4 text-muted-foreground" />
-                              <span className="text-muted-foreground">Estimated Engagement:</span>
-                              <span className="font-bold text-green-600">{platform.estimatedEngagement}</span>
+                              <Eye className="w-4 h-4 text-gray-400" />
+                              <span className="text-gray-400">Estimated Engagement:</span>
+                              <span className="font-bold text-green-400">{platform.estimatedEngagement}</span>
                             </div>
                             {platform.hashtags && (
                               <div className="flex flex-wrap gap-2 mt-2">
                                 {platform.hashtags.map((tag, i) => (
-                                  <Badge key={i} variant="outline" className="text-xs">
+                                  <Badge key={i} variant="outline" className="text-xs text-purple-300 border-purple-500/30">
                                     {tag}
                                   </Badge>
                                 ))}
@@ -477,9 +477,9 @@ export default function CampaignStrategy() {
 
                           <TabsContent value="timing" className="space-y-3 mt-4">
                             {platform.bestTimes.map((time, i) => (
-                              <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-white border">
-                                <Clock className="w-4 h-4 text-purple-500" />
-                                <span className="text-sm">{time}</span>
+                              <div key={i} className="flex items-center gap-2 p-2 rounded-lg bg-white/10 border border-white/20">
+                                <Clock className="w-4 h-4 text-purple-400" />
+                                <span className="text-sm text-gray-300">{time}</span>
                               </div>
                             ))}
                           </TabsContent>
@@ -488,10 +488,15 @@ export default function CampaignStrategy() {
                         {/* Match Score Progress */}
                         <div className="mt-4 space-y-2">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground">Match Score</span>
-                            <span className="font-bold">{platform.score}%</span>
+                            <span className="text-gray-400">Match Score</span>
+                            <span className="font-bold text-white">{platform.score}%</span>
                           </div>
-                          <Progress value={platform.score} className="h-2" />
+                          <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+                            <div 
+                              className="h-full bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 transition-all duration-500 rounded-full"
+                              style={{ width: `${platform.score}%` }}
+                            />
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
