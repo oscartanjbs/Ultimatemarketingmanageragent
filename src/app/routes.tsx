@@ -20,6 +20,7 @@ import PosterDesign from "./pages/PosterDesign";
 import EmailMarketing from "./pages/EmailMarketing";
 import CampaignCalendar from "./pages/CampaignCalendar";
 import AnalyticsReports from "./pages/AnalyticsReports";
+import AnalysisReview from "./pages/AnalysisReview";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "/publishing-flow",
         element: <PublishingFlow />,
+      },
+      {
+        path: "/analysis-review",
+        element: <AnalysisReview />,
       },
       // Footer Product Links
       {
@@ -133,6 +138,7 @@ export const router = createBrowserRouter([
           { path: "email", element: <EmailMarketing /> },
           { path: "calendar", element: <CampaignCalendar /> },
           { path: "analytics", element: <AnalyticsReports /> },
+          { path: "analysis-review", element: <AnalysisReview /> },
         ],
       },
     ],
