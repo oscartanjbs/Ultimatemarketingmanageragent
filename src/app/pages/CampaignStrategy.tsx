@@ -5,13 +5,32 @@ import {
   Users, Target, DollarSign, Eye, ThumbsUp, Share2,
   Instagram, Youtube, Facebook, Linkedin, Twitter,
   Clock, Zap, BarChart3, MessageSquare, Image as ImageIcon,
-  Play, Camera, Hash, AtSign
+  Play, Camera, Hash, AtSign, Video, X
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Progress } from "../components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import productImage from "figma:asset/579d05dd714bb19824154700e7df53a6fe6cf69e.png";
+import { motion } from "motion/react";
+
+// Grid background component
+function GridBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      <div className="absolute inset-0" 
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}
+      />
+    </div>
+  );
+}
 
 // Mock data - in real app this would come from AI analysis
 const productAnalysis = {
@@ -149,6 +168,7 @@ const trendingTopics = [
 export default function CampaignStrategy() {
   const navigate = useNavigate();
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Instagram", "YouTube"]);
+  const [showVideoDialog, setShowVideoDialog] = useState(false);
 
   const togglePlatform = (platform: string) => {
     if (selectedPlatforms.includes(platform)) {
@@ -167,44 +187,46 @@ export default function CampaignStrategy() {
     }
   };
 
-  // Mock image - in real app this would be the actual uploaded image
-  const productImage = "https://images.unsplash.com/photo-1750776100861-30c172651817?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxHYXJtaW4lMjBGb3JlcnVubmVyJTIwOTY1JTIwcnVubmluZyUyMHdhdGNofGVufDF8fHx8MTc3MjI4NjM3MXww&ixlib=rb-4.1.0&q=80&w=1080";
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
+      <GridBackground />
+      
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Button variant="ghost" onClick={() => navigate("/product-capture")} className="gap-2">
+          <Button variant="ghost" onClick={() => navigate("/product-capture")} className="gap-2 text-white hover:bg-white/10">
             <ArrowLeft className="w-4 h-4" />
             Back
           </Button>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center relative">
               <Sparkles className="w-6 h-6 text-white" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 blur-lg opacity-50" />
             </div>
             <div>
               <h1 className="text-lg font-bold">
-                Agent<span className="text-purple-500">cy</span>
+                Agent<span className="text-purple-400">cy</span>
               </h1>
-              <p className="text-xs text-muted-foreground">AI Marketing Platform</p>
+              <p className="text-xs text-gray-400">AI Marketing Platform</p>
             </div>
           </div>
           <div className="w-24" />
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Success Banner */}
-        <Card className="mb-8 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50">
+        <Card className="mb-8 border-green-500/20 bg-gradient-to-r from-green-900/20 to-emerald-900/20 backdrop-blur-sm">
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
                 <Check className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-bold text-lg mb-1">Analysis Complete!</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-bold text-lg mb-1 text-white">Analysis Complete!</h3>
+                <p className="text-sm text-gray-400">
                   Our AI has analyzed your product and created a comprehensive marketing strategy across 5 platforms.
                 </p>
               </div>
@@ -216,54 +238,62 @@ export default function CampaignStrategy() {
           {/* Left Column - Product Analysis */}
           <div className="lg:col-span-1 space-y-6">
             {/* Product Image */}
-            <Card>
+            <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-lg">Your Product</CardTitle>
+                <CardTitle className="text-lg text-white">Your Product</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="aspect-square rounded-lg overflow-hidden mb-4">
+                <div className="aspect-square rounded-lg overflow-hidden mb-4 border border-white/10">
                   <img 
                     src={productImage} 
                     alt="Product" 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="flex-1">
+                <div className="flex gap-2 mb-2">
+                  <Button variant="outline" size="sm" className="flex-1 border-white/20 bg-white/5 hover:bg-white/10 text-white">
                     <Camera className="w-4 h-4 mr-2" />
                     Retake
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
+                  <Button variant="outline" size="sm" className="flex-1 border-white/20 bg-white/5 hover:bg-white/10 text-white">
                     <ImageIcon className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
                 </div>
+                <Button 
+                  size="sm" 
+                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                  onClick={() => setShowVideoDialog(true)}
+                >
+                  <Video className="w-4 h-4 mr-2" />
+                  AI Video Generation
+                </Button>
               </CardContent>
             </Card>
 
             {/* AI Analysis */}
-            <Card>
+            <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-purple-500" />
+                <CardTitle className="text-lg flex items-center gap-2 text-white">
+                  <Sparkles className="w-5 h-5 text-purple-400" />
                   AI Analysis
                 </CardTitle>
-                <CardDescription>What our AI detected</CardDescription>
+                <CardDescription className="text-gray-400">What our AI detected</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Product Category</p>
-                  <Badge className="bg-purple-500/10 text-purple-600 border-purple-500/20">
+                  <p className="text-xs text-gray-400 mb-1">Product Category</p>
+                  <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
                     {productAnalysis.category}
                   </Badge>
                 </div>
                 
                 <div>
-                  <p className="text-xs text-muted-foreground mb-2">Key Features Detected</p>
+                  <p className="text-xs text-gray-400 mb-2">Key Features Detected</p>
                   <div className="space-y-1">
                     {productAnalysis.keyFeatures.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm">
-                        <Check className="w-4 h-4 text-green-500" />
+                      <div key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                        <Check className="w-4 h-4 text-green-400" />
                         <span>{feature}</span>
                       </div>
                     ))}
@@ -271,39 +301,39 @@ export default function CampaignStrategy() {
                 </div>
 
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Target Audience</p>
-                  <p className="text-sm font-medium">{productAnalysis.targetAudience}</p>
+                  <p className="text-xs text-gray-400 mb-1">Target Audience</p>
+                  <p className="text-sm font-medium text-white">{productAnalysis.targetAudience}</p>
                 </div>
 
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Price Range</p>
-                  <p className="text-sm font-medium">{productAnalysis.pricePoint}</p>
+                  <p className="text-xs text-gray-400 mb-1">Price Range</p>
+                  <p className="text-sm font-medium text-white">{productAnalysis.pricePoint}</p>
                 </div>
 
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Visual Style</p>
-                  <p className="text-sm">{productAnalysis.visualStyle}</p>
+                  <p className="text-xs text-gray-400 mb-1">Visual Style</p>
+                  <p className="text-sm text-gray-300">{productAnalysis.visualStyle}</p>
                 </div>
               </CardContent>
             </Card>
 
             {/* Trending Topics */}
-            <Card>
+            <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 text-green-500" />
+                <CardTitle className="text-lg flex items-center gap-2 text-white">
+                  <TrendingUp className="w-5 h-5 text-green-400" />
                   Trending Topics
                 </CardTitle>
-                <CardDescription>Relevant trends for your product</CardDescription>
+                <CardDescription className="text-gray-400">Relevant trends for your product</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {trendingTopics.map((topic, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50">
+                  <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-white/10">
                     <div>
-                      <p className="font-medium text-sm">{topic.tag}</p>
-                      <p className="text-xs text-muted-foreground">{topic.volume}</p>
+                      <p className="font-medium text-sm text-white">{topic.tag}</p>
+                      <p className="text-xs text-gray-400">{topic.volume}</p>
                     </div>
-                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20">
+                    <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
                       {topic.trend}
                     </Badge>
                   </div>
@@ -316,44 +346,44 @@ export default function CampaignStrategy() {
           <div className="lg:col-span-2 space-y-6">
             {/* Summary Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card>
+              <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
                 <CardContent className="pt-6 text-center">
-                  <Target className="w-8 h-8 mx-auto mb-2 text-blue-500" />
-                  <div className="text-2xl font-bold">5</div>
-                  <div className="text-xs text-muted-foreground">Platforms</div>
+                  <Target className="w-8 h-8 mx-auto mb-2 text-blue-400" />
+                  <div className="text-2xl font-bold text-white">5</div>
+                  <div className="text-xs text-gray-400">Platforms</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
                 <CardContent className="pt-6 text-center">
-                  <Users className="w-8 h-8 mx-auto mb-2 text-purple-500" />
-                  <div className="text-2xl font-bold">500K+</div>
-                  <div className="text-xs text-muted-foreground">Est. Reach</div>
+                  <Users className="w-8 h-8 mx-auto mb-2 text-purple-400" />
+                  <div className="text-2xl font-bold text-white">500K+</div>
+                  <div className="text-xs text-gray-400">Est. Reach</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
                 <CardContent className="pt-6 text-center">
-                  <Eye className="w-8 h-8 mx-auto mb-2 text-green-500" />
-                  <div className="text-2xl font-bold">32</div>
-                  <div className="text-xs text-muted-foreground">Content Pieces</div>
+                  <Eye className="w-8 h-8 mx-auto mb-2 text-green-400" />
+                  <div className="text-2xl font-bold text-white">32</div>
+                  <div className="text-xs text-gray-400">Content Pieces</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
                 <CardContent className="pt-6 text-center">
-                  <ThumbsUp className="w-8 h-8 mx-auto mb-2 text-orange-500" />
-                  <div className="text-2xl font-bold">9.8%</div>
-                  <div className="text-xs text-muted-foreground">Avg. Engagement</div>
+                  <ThumbsUp className="w-8 h-8 mx-auto mb-2 text-orange-400" />
+                  <div className="text-2xl font-bold text-white">9.8%</div>
+                  <div className="text-xs text-gray-400">Avg. Engagement</div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Platform Recommendations */}
-            <Card>
+            <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Share2 className="w-5 h-5 text-purple-500" />
+                <CardTitle className="flex items-center gap-2 text-white">
+                  <Share2 className="w-5 h-5 text-purple-400" />
                   Recommended Platforms
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-gray-400">
                   AI-selected platforms based on your product analysis and target audience
                 </CardDescription>
               </CardHeader>
@@ -367,8 +397,8 @@ export default function CampaignStrategy() {
                       key={platform.name}
                       className={`transition-all cursor-pointer ${
                         isSelected 
-                          ? "border-purple-300 shadow-lg bg-gradient-to-r from-purple-50 to-pink-50" 
-                          : "hover:shadow-md"
+                          ? "border-purple-500/50 shadow-lg shadow-purple-500/20 bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm" 
+                          : "bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-white/20"
                       }`}
                       onClick={() => togglePlatform(platform.name)}
                     >
@@ -493,6 +523,66 @@ export default function CampaignStrategy() {
           </div>
         </div>
       </div>
+
+      {/* AI Video Generation Dialog */}
+      {showVideoDialog && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={() => setShowVideoDialog(false)}>
+          <div className="bg-white rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 border-b flex items-center justify-between bg-gradient-to-r from-purple-50 to-pink-50">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                  <Video className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">AI-Generated Product Video</h2>
+                  <p className="text-sm text-muted-foreground">Generated from your product image</p>
+                </div>
+              </div>
+              <Button variant="ghost" size="icon" onClick={() => setShowVideoDialog(false)}>
+                <X className="w-6 h-6" />
+              </Button>
+            </div>
+            <div className="p-6">
+              <div className="aspect-video bg-black rounded-lg overflow-hidden">
+                <video 
+                  controls 
+                  autoPlay
+                  className="w-full h-full"
+                  src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <div className="mt-6 grid grid-cols-3 gap-4">
+                <div className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg text-center">
+                  <Eye className="w-6 h-6 mx-auto mb-2 text-purple-500" />
+                  <p className="text-sm font-medium">Predicted Views</p>
+                  <p className="text-2xl font-bold text-purple-600">125K</p>
+                </div>
+                <div className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg text-center">
+                  <ThumbsUp className="w-6 h-6 mx-auto mb-2 text-green-500" />
+                  <p className="text-sm font-medium">Est. Engagement</p>
+                  <p className="text-2xl font-bold text-green-600">14.2%</p>
+                </div>
+                <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg text-center">
+                  <Share2 className="w-6 h-6 mx-auto mb-2 text-blue-500" />
+                  <p className="text-sm font-medium">Share Rate</p>
+                  <p className="text-2xl font-bold text-blue-600">8.7%</p>
+                </div>
+              </div>
+              <div className="mt-6 flex gap-3">
+                <Button variant="outline" className="flex-1" onClick={() => setShowVideoDialog(false)}>
+                  Close
+                </Button>
+                <Button className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500">
+                  <Video className="w-4 h-4 mr-2" />
+                  Download Video
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
