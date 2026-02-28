@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { 
   Sparkles, Check, Loader2, Brain, TrendingUp, 
-  Shield, Palette, Radio, FileSearch, Network, StopCircle
+  Lightbulb, Users, Target, Palette, Image as ImageIcon, 
+  Video, FileText, StopCircle, ArrowRight, Eye
 } from "lucide-react";
 import { Card, CardContent } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
@@ -19,121 +20,173 @@ type Agent = {
   tasks: string[];
 };
 
-const agents: Agent[] = [
+// Page 1: Strategy & Planning Agents
+const page1Agents: Agent[] = [
   {
-    id: "extractor",
-    name: "Extractor Agent",
-    description: "Analyzing product images and extracting key information",
-    icon: FileSearch,
-    color: "text-blue-500",
-    gradient: "from-blue-500 to-cyan-500",
-    tasks: [
-      "Processing image data...",
-      "Detecting product features...",
-      "Identifying colors and materials...",
-      "Extracting text and labels...",
-      "Analyzing visual composition..."
-    ]
-  },
-  {
-    id: "master",
-    name: "Master Agent",
-    description: "Coordinating all agents and building strategy framework",
-    icon: Network,
+    id: "cmo",
+    name: "CMO Agent",
+    description: "Overseeing entire marketing strategy and campaign direction",
+    icon: Brain,
     color: "text-purple-500",
     gradient: "from-purple-500 to-pink-500",
     tasks: [
-      "Synthesizing extracted data...",
-      "Building product profile...",
-      "Identifying target audience...",
-      "Creating strategic framework...",
-      "Coordinating agent workflows..."
+      "Analyzing business objectives...",
+      "Defining campaign goals...",
+      "Setting KPIs and success metrics...",
+      "Coordinating all agent activities...",
+      "Creating high-level strategy...",
     ]
   },
   {
-    id: "marketing",
-    name: "Marketing Agent",
-    description: "Developing platform strategies and content recommendations",
-    icon: TrendingUp,
-    color: "text-green-500",
-    gradient: "from-green-500 to-emerald-500",
+    id: "research",
+    name: "Research Agent",
+    description: "Conducting market research and competitive analysis",
+    icon: Target,
+    color: "text-blue-500",
+    gradient: "from-blue-500 to-cyan-500",
     tasks: [
-      "Analyzing market trends...",
-      "Identifying best platforms...",
-      "Creating content strategy...",
-      "Calculating engagement metrics...",
-      "Optimizing posting schedule..."
+      "Scanning market trends...",
+      "Analyzing competitor strategies...",
+      "Identifying target demographics...",
+      "Researching consumer behavior...",
+      "Compiling market insights...",
     ]
   },
   {
-    id: "legal",
-    name: "Legal Agent",
-    description: "Ensuring compliance and reviewing content guidelines",
-    icon: Shield,
-    color: "text-amber-500",
-    gradient: "from-amber-500 to-orange-500",
+    id: "strategy",
+    name: "Strategy Agent",
+    description: "Developing comprehensive marketing strategy framework",
+    icon: Lightbulb,
+    color: "text-yellow-500",
+    gradient: "from-yellow-500 to-orange-500",
     tasks: [
-      "Checking trademark compliance...",
-      "Reviewing content guidelines...",
-      "Validating copyright usage...",
-      "Ensuring platform policies...",
-      "Flagging potential issues..."
+      "Building strategy framework...",
+      "Defining messaging pillars...",
+      "Creating positioning strategy...",
+      "Planning customer journey...",
+      "Finalizing strategic roadmap...",
     ]
   },
   {
-    id: "creative",
-    name: "Creative Agent",
-    description: "Generating engaging copy, captions, and visual concepts",
+    id: "creativity",
+    name: "Creativity Agent",
+    description: "Generating creative concepts and brand storytelling",
     icon: Palette,
     color: "text-pink-500",
     gradient: "from-pink-500 to-rose-500",
     tasks: [
-      "Crafting compelling headlines...",
-      "Writing platform-specific copy...",
-      "Generating hashtag strategy...",
-      "Creating visual concepts...",
-      "Developing brand voice..."
+      "Brainstorming creative concepts...",
+      "Developing brand narratives...",
+      "Crafting compelling copy...",
+      "Designing visual themes...",
+      "Creating content hooks...",
+    ]
+  },
+];
+
+// Page 2: Marketing Execution Agent
+const page2Agents: Agent[] = [
+  {
+    id: "marketing",
+    name: "Marketing Agent",
+    description: "Executing multi-platform marketing campaigns and optimization",
+    icon: TrendingUp,
+    color: "text-green-500",
+    gradient: "from-green-500 to-emerald-500",
+    tasks: [
+      "Selecting optimal platforms...",
+      "Building content calendars...",
+      "Crafting platform-specific strategies...",
+      "Generating hashtag strategies...",
+      "Optimizing posting schedules...",
+      "Creating engagement tactics...",
+      "Planning A/B testing...",
+      "Setting up analytics tracking...",
+    ]
+  },
+];
+
+// Page 3: Content Creation Agents
+const page3Agents: Agent[] = [
+  {
+    id: "image",
+    name: "Image Agent",
+    description: "Creating and optimizing visual content for all platforms",
+    icon: ImageIcon,
+    color: "text-cyan-500",
+    gradient: "from-cyan-500 to-blue-500",
+    tasks: [
+      "Generating product visuals...",
+      "Creating social media graphics...",
+      "Designing Instagram stories...",
+      "Optimizing image dimensions...",
+      "Adding brand overlays...",
     ]
   },
   {
-    id: "distribution",
-    name: "Distribution Agent",
-    description: "Planning content distribution and scheduling strategy",
-    icon: Radio,
+    id: "video",
+    name: "Video Agent",
+    description: "Producing engaging video content and animations",
+    icon: Video,
+    color: "text-red-500",
+    gradient: "from-red-500 to-pink-500",
+    tasks: [
+      "Scripting video narratives...",
+      "Creating video storyboards...",
+      "Generating motion graphics...",
+      "Editing promotional videos...",
+      "Optimizing for each platform...",
+    ]
+  },
+  {
+    id: "script",
+    name: "Script Agent",
+    description: "Writing compelling scripts and copy for all content",
+    icon: FileText,
     color: "text-indigo-500",
     gradient: "from-indigo-500 to-purple-500",
     tasks: [
-      "Analyzing optimal posting times...",
-      "Creating content calendar...",
-      "Planning cross-platform strategy...",
-      "Setting up automation flows...",
-      "Finalizing distribution plan..."
+      "Writing video scripts...",
+      "Crafting social media captions...",
+      "Creating ad copy variations...",
+      "Developing CTAs...",
+      "Optimizing for SEO...",
     ]
-  }
+  },
 ];
 
 export default function AgentProcessing() {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1); // 1, 2, or 3
   const [currentAgentIndex, setCurrentAgentIndex] = useState(0);
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [completedAgents, setCompletedAgents] = useState<string[]>([]);
   const [overallProgress, setOverallProgress] = useState(0);
   const [isStopped, setIsStopped] = useState(false);
+  const [showReview, setShowReview] = useState(false);
 
+  const getCurrentPageAgents = () => {
+    switch (currentPage) {
+      case 1: return page1Agents;
+      case 2: return page2Agents;
+      case 3: return page3Agents;
+      default: return page1Agents;
+    }
+  };
+
+  const agents = getCurrentPageAgents();
   const currentAgent = agents[currentAgentIndex];
   const isComplete = currentAgentIndex >= agents.length;
 
   useEffect(() => {
     if (isComplete) {
-      // Wait a moment to show completion state, then navigate
-      const timer = setTimeout(() => {
-        navigate("/campaign-strategy");
-      }, 2000);
-      return () => clearTimeout(timer);
+      // Show review step when all agents on current page are complete
+      setShowReview(true);
+      return;
     }
 
     if (isStopped) {
-      return; // Don't process if stopped
+      return;
     }
 
     // Simulate task progress
@@ -148,19 +201,43 @@ export default function AgentProcessing() {
           return 0;
         }
       });
-    }, 800); // Each task takes 800ms
+    }, 800);
 
     return () => clearInterval(taskTimer);
-  }, [currentAgentIndex, currentAgent, isComplete, isStopped, navigate]);
+  }, [currentAgentIndex, currentAgent, isComplete, isStopped]);
 
   useEffect(() => {
     // Update overall progress
     const agentProgress = (currentAgentIndex / agents.length) * 100;
     const taskProgress = (currentTaskIndex / (currentAgent?.tasks.length || 1)) * (100 / agents.length);
     setOverallProgress(Math.min(agentProgress + taskProgress, 100));
-  }, [currentAgentIndex, currentTaskIndex, currentAgent]);
+  }, [currentAgentIndex, currentTaskIndex, currentAgent, agents.length]);
 
-  if (isComplete) {
+  const handleApprove = () => {
+    if (currentPage < 3) {
+      // Move to next page
+      setCurrentPage(currentPage + 1);
+      setCurrentAgentIndex(0);
+      setCurrentTaskIndex(0);
+      setCompletedAgents([]);
+      setOverallProgress(0);
+      setShowReview(false);
+    } else {
+      // All pages complete, go to campaign strategy
+      navigate("/campaign-strategy");
+    }
+  };
+
+  const getPageTitle = () => {
+    switch (currentPage) {
+      case 1: return "Strategy & Planning";
+      case 2: return "Marketing Execution";
+      case 3: return "Content Creation";
+      default: return "Processing";
+    }
+  };
+
+  if (showReview) {
     return (
       <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center p-4">
         {/* Animated gradient background */}
@@ -183,9 +260,9 @@ export default function AgentProcessing() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative z-10"
+          className="relative z-10 max-w-2xl w-full"
         >
-          <Card className="max-w-md w-full bg-white/5 border-white/10 backdrop-blur-sm">
+          <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
             <CardContent className="pt-8 pb-8 text-center">
               <motion.div
                 initial={{ scale: 0 }}
@@ -193,18 +270,55 @@ export default function AgentProcessing() {
                 transition={{ delay: 0.2, type: "spring" }}
                 className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center"
               >
-                <Check className="w-10 h-10 text-white" />
+                <Eye className="w-10 h-10 text-white" />
               </motion.div>
-              <h2 className="text-3xl font-bold mb-2 text-white">All Agents Complete!</h2>
-              <p className="text-gray-400 mb-6">Your marketing strategy is ready</p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => navigate("/campaign-strategy")}
-                className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all"
-              >
-                View Campaign Strategy →
-              </motion.button>
+              <h2 className="text-3xl font-bold mb-2 text-white">
+                {currentPage === 1 && "Strategy Phase Complete!"}
+                {currentPage === 2 && "Marketing Phase Complete!"}
+                {currentPage === 3 && "Content Creation Complete!"}
+              </h2>
+              <p className="text-gray-400 mb-2">
+                {currentPage === 1 && "Review the strategic foundation before moving to marketing execution"}
+                {currentPage === 2 && "Review the marketing plan before content creation"}
+                {currentPage === 3 && "Review all generated content before finalizing"}
+              </p>
+              
+              {/* Show completed agents summary */}
+              <div className="my-6 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+                <p className="text-sm text-gray-300 mb-3">Completed Agents:</p>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {agents.map((agent) => (
+                    <div key={agent.id} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30">
+                      <Check className="w-4 h-4 text-green-400" />
+                      <span className="text-sm text-white">{agent.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="flex-1 border-white/20 bg-white/5 hover:bg-white/10 text-white"
+                  onClick={() => {
+                    setIsStopped(true);
+                    navigate("/");
+                  }}
+                >
+                  Cancel
+                </Button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleApprove}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all flex items-center justify-center gap-2"
+                >
+                  <Check className="w-5 h-5" />
+                  {currentPage === 3 ? "Approve & Continue" : "Approve & Next Phase"}
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
@@ -248,6 +362,42 @@ export default function AgentProcessing() {
       </header>
 
       <div className="container mx-auto px-4 py-12 max-w-5xl relative z-10">
+        {/* Page Indicator */}
+        <div className="mb-8 flex items-center justify-center gap-4">
+          {[1, 2, 3].map((page) => (
+            <div key={page} className="flex items-center gap-2">
+              <div className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all ${
+                currentPage === page 
+                  ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30" 
+                  : currentPage > page
+                  ? "bg-green-500/20 border border-green-500/30"
+                  : "bg-white/5 border border-white/10"
+              }`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                  currentPage === page
+                    ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white"
+                    : currentPage > page
+                    ? "bg-green-500 text-white"
+                    : "bg-white/10 text-gray-400"
+                }`}>
+                  {currentPage > page ? <Check className="w-5 h-5" /> : page}
+                </div>
+                <div className="text-sm">
+                  <p className={`font-semibold ${currentPage === page ? "text-white" : "text-gray-400"}`}>
+                    Phase {page}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {page === 1 ? "Strategy" : page === 2 ? "Marketing" : "Content"}
+                  </p>
+                </div>
+              </div>
+              {page < 3 && (
+                <ArrowRight className="w-5 h-5 text-gray-600" />
+              )}
+            </div>
+          ))}
+        </div>
+
         {/* Overall Progress */}
         <div className="mb-12 text-center">
           <motion.div 
@@ -256,7 +406,7 @@ export default function AgentProcessing() {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-white text-sm font-medium mb-6 backdrop-blur-sm"
           >
             <Brain className="w-4 h-4 animate-pulse text-purple-400" />
-            AI Agents Processing
+            {getPageTitle()}
           </motion.div>
           <motion.h2 
             initial={{ y: 20, opacity: 0 }}
@@ -264,7 +414,7 @@ export default function AgentProcessing() {
             transition={{ delay: 0.1 }}
             className="text-4xl font-bold mb-3 text-white"
           >
-            Analyzing Your Product
+            AI Agents Working
           </motion.h2>
           <motion.p 
             initial={{ y: 20, opacity: 0 }}
@@ -272,7 +422,9 @@ export default function AgentProcessing() {
             transition={{ delay: 0.2 }}
             className="text-gray-400 mb-8 text-lg"
           >
-            Our AI agents are working together to create your perfect marketing strategy
+            {currentPage === 1 && "Building your strategic foundation"}
+            {currentPage === 2 && "Planning your marketing execution"}
+            {currentPage === 3 && "Creating your content assets"}
           </motion.p>
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
@@ -281,7 +433,7 @@ export default function AgentProcessing() {
             className="max-w-2xl mx-auto"
           >
             <div className="flex items-center justify-between text-sm mb-3">
-              <span className="text-gray-400 font-medium">Overall Progress</span>
+              <span className="text-gray-400 font-medium">Phase Progress</span>
               <span className="font-bold text-white text-lg">{Math.round(overallProgress)}%</span>
             </div>
             <div className="relative">
@@ -441,7 +593,7 @@ export default function AgentProcessing() {
                       {completedAgents.length} of {agents.length} Agents Complete
                     </p>
                     <p className="text-sm text-gray-400 mt-1">
-                      Currently processing: <span className="font-semibold text-purple-400">{currentAgent.name}</span>
+                      Currently processing: <span className="font-semibold text-purple-400">{currentAgent?.name || "Complete"}</span>
                     </p>
                   </div>
                 </div>
