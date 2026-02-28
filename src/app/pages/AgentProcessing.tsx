@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { 
   Sparkles, Check, Loader2, Brain, TrendingUp, 
-  Shield, Palette, Radio, FileSearch, Network
+  Shield, Palette, Radio, FileSearch, Network, StopCircle
 } from "lucide-react";
 import { Card, CardContent } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
+import { Button } from "../components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
 
 type Agent = {
@@ -117,6 +118,7 @@ export default function AgentProcessing() {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [completedAgents, setCompletedAgents] = useState<string[]>([]);
   const [overallProgress, setOverallProgress] = useState(0);
+  const [isStopped, setIsStopped] = useState(false);
 
   const currentAgent = agents[currentAgentIndex];
   const isComplete = currentAgentIndex >= agents.length;
@@ -128,6 +130,10 @@ export default function AgentProcessing() {
         navigate("/campaign-strategy");
       }, 2000);
       return () => clearTimeout(timer);
+    }
+
+    if (isStopped) {
+      return; // Don't process if stopped
     }
 
     // Simulate task progress
@@ -145,7 +151,7 @@ export default function AgentProcessing() {
     }, 800); // Each task takes 800ms
 
     return () => clearInterval(taskTimer);
-  }, [currentAgentIndex, currentAgent, isComplete, navigate]);
+  }, [currentAgentIndex, currentAgent, isComplete, isStopped, navigate]);
 
   useEffect(() => {
     // Update overall progress
@@ -456,6 +462,27 @@ export default function AgentProcessing() {
               </div>
             </CardContent>
           </Card>
+        </motion.div>
+
+        {/* Stop Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-6 flex justify-center"
+        >
+          <Button
+            onClick={() => {
+              setIsStopped(true);
+              navigate("/");
+            }}
+            variant="outline"
+            size="lg"
+            className="gap-2 border-red-500/50 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all"
+          >
+            <StopCircle className="w-5 h-5" />
+            Stop Processing
+          </Button>
         </motion.div>
       </div>
     </div>

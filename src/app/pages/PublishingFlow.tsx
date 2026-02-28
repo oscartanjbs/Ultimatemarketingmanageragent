@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { Sparkles, CheckCircle2, Loader2, Youtube, Instagram, Facebook, Twitter, Linkedin, Mail, FileText } from "lucide-react";
+import { useNavigate, useLocation } from "react-router";
+import { Sparkles, CheckCircle2, Loader2, Youtube, Instagram, Facebook, Twitter, Linkedin, Mail, FileText, MessageSquare, Play } from "lucide-react";
 import { Card, CardContent } from "../components/ui/card";
+import { Button } from "../components/ui/button";
 import { motion, AnimatePresence } from "motion/react";
 import { Progress } from "../components/ui/progress";
 
@@ -16,18 +17,30 @@ interface Platform {
 
 export default function PublishingFlow() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentPhase, setCurrentPhase] = useState<"authenticating" | "uploading" | "completed">("authenticating");
   const [overallProgress, setOverallProgress] = useState(0);
   
-  const [platforms, setPlatforms] = useState<Platform[]>([
-    { id: "youtube", name: "YouTube", icon: Youtube, color: "from-red-500 to-red-600", status: "pending", progress: 0 },
-    { id: "instagram", name: "Instagram", icon: Instagram, color: "from-pink-500 to-purple-600", status: "pending", progress: 0 },
-    { id: "facebook", name: "Facebook", icon: Facebook, color: "from-blue-500 to-blue-600", status: "pending", progress: 0 },
-    { id: "twitter", name: "X (Twitter)", icon: Twitter, color: "from-sky-400 to-blue-500", status: "pending", progress: 0 },
-    { id: "linkedin", name: "LinkedIn", icon: Linkedin, color: "from-blue-600 to-blue-700", status: "pending", progress: 0 },
-    { id: "email", name: "Email Lists", icon: Mail, color: "from-green-500 to-emerald-600", status: "pending", progress: 0 },
-    { id: "blog", name: "Blog Posts", icon: FileText, color: "from-orange-500 to-amber-600", status: "pending", progress: 0 },
-  ]);
+  // Get selected platforms from navigation state
+  const selectedPlatformNames = (location.state as any)?.selectedPlatforms || ["Instagram", "YouTube"];
+  
+  // Platform mapping with all available platforms
+  const allPlatforms = [
+    { id: "youtube", name: "YouTube", icon: Youtube, color: "from-red-500 to-red-600" },
+    { id: "instagram", name: "Instagram", icon: Instagram, color: "from-pink-500 to-purple-600" },
+    { id: "tiktok", name: "TikTok", icon: Play, color: "from-black to-gray-700" },
+    { id: "reddit", name: "Reddit", icon: MessageSquare, color: "from-orange-500 to-red-500" },
+    { id: "twitter", name: "Twitter/X", icon: Twitter, color: "from-sky-400 to-blue-500" },
+    { id: "facebook", name: "Facebook", icon: Facebook, color: "from-blue-500 to-blue-600" },
+    { id: "linkedin", name: "LinkedIn", icon: Linkedin, color: "from-blue-600 to-blue-700" },
+  ];
+  
+  // Filter platforms based on selected platforms
+  const initialPlatforms: Platform[] = allPlatforms
+    .filter(p => selectedPlatformNames.includes(p.name))
+    .map(p => ({ ...p, status: "pending" as const, progress: 0 }));
+  
+  const [platforms, setPlatforms] = useState<Platform[]>(initialPlatforms);
 
   useEffect(() => {
     // Phase 1: Authenticate all platforms (0-40%)
@@ -77,9 +90,7 @@ export default function PublishingFlow() {
           if (current.every(p => p.status === "completed")) {
             clearInterval(progressInterval);
             setCurrentPhase("completed");
-            setTimeout(() => {
-              navigate("/dashboard");
-            }, 2000);
+            // No auto-redirect - user clicks button instead
           }
           
           return current;
@@ -219,7 +230,7 @@ export default function PublishingFlow() {
             <p className="text-gray-400 mb-6">
               {currentPhase === "authenticating" && "Securely connecting to your marketing platforms..."}
               {currentPhase === "uploading" && "Distributing your AI-generated content across all channels..."}
-              {currentPhase === "completed" && "Redirecting to your dashboard..."}
+              {currentPhase === "completed" && "Your content has been successfully published!"}
             </p>
 
             {/* Overall Progress Bar */}
@@ -396,9 +407,16 @@ export default function PublishingFlow() {
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 blur-xl opacity-50" />
                   </motion.div>
                   <h3 className="text-2xl font-bold text-white mb-2">All Set! 🎉</h3>
-                  <p className="text-gray-400">
-                    Your campaign has been published to all platforms. Redirecting to dashboard...
+                  <p className="text-gray-400 mb-4">
+                    Your campaign has been published to all selected platforms successfully!
                   </p>
+                  <Button
+                    size="lg"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Go to Dashboard
+                  </Button>
                 </CardContent>
               </Card>
             </motion.div>

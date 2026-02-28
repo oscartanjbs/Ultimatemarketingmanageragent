@@ -23,8 +23,9 @@ export default function DisclaimerDialog() {
   };
 
   const handleDecline = () => {
-    // Redirect to a different page or show a message
-    window.location.href = "https://www.google.com";
+    // Close the dialog and redirect to home page
+    setOpen(false);
+    navigate("/");
   };
 
   const handleCookiePolicyClick = () => {
@@ -37,13 +38,18 @@ export default function DisclaimerDialog() {
   };
 
   const handleOpenChange = (newOpen: boolean) => {
-    // Allow closing only if user has accepted before
-    const hasAccepted = localStorage.getItem("agentcy-disclaimer-accepted");
-    if (!newOpen && hasAccepted) {
-      setOpen(false);
-    } else if (!newOpen && !hasAccepted) {
-      // If trying to close without accepting, treat as decline
-      handleDecline();
+    // If trying to close (X button clicked)
+    if (!newOpen) {
+      // Get the current acceptance status
+      const hasAccepted = localStorage.getItem("agentcy-disclaimer-accepted");
+      
+      // If already accepted before, allow closing
+      if (hasAccepted) {
+        setOpen(false);
+      } else {
+        // If not accepted, treat as decline
+        handleDecline();
+      }
     }
   };
 

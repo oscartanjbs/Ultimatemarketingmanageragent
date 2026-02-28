@@ -518,7 +518,7 @@ export default function CampaignStrategy() {
               <Button 
                 size="lg" 
                 className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/publishing-flow", { state: { selectedPlatforms } })}
                 disabled={selectedPlatforms.length === 0}
               >
                 Create Campaign ({selectedPlatforms.length} platforms)
