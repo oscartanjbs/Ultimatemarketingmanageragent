@@ -1,11 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
-import { Camera, Upload, X, ArrowLeft, Loader2 } from "lucide-react";
+import { Camera, Video, Upload, ArrowLeft, ArrowRight, Sparkles, Check, Loader2, Image as ImageIcon, AlertCircle, Brain, Wand2, TrendingUp, Target } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import logo from "figma:asset/9281815bf476bf8d1fee4962bd415d80a8690ad3.png";
+import { Progress } from "../components/ui/progress";
+import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
+import { Badge } from "../components/ui/badge";
 
-type CaptureMode = "photo" | "upload";
+type CaptureMode = "photo" | "video" | "upload";
 type ProcessingStep = "capture" | "processing" | "generating" | "complete";
 
 export default function ProductCapture() {
@@ -22,11 +24,11 @@ export default function ProductCapture() {
     setCaptureMode(mode);
     setCameraError(null);
     
-    if (mode === "photo") {
+    if (mode === "photo" || mode === "video") {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: "environment" },
-          audio: false
+          audio: mode === "video"
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -110,8 +112,8 @@ export default function ProductCapture() {
 
   const steps = [
     { id: "capture", label: "Capture Product", icon: Camera },
-    { id: "processing", label: "Create 3D Model", icon: Upload },
-    { id: "generating", label: "Generate Content", icon: Upload },
+    { id: "processing", label: "Create 3D Model", icon: Sparkles },
+    { id: "generating", label: "Generate Content", icon: Video },
     { id: "complete", label: "Ready to Upload", icon: Check }
   ];
 
@@ -123,12 +125,22 @@ export default function ProductCapture() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-purple-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Button variant="ghost" onClick={() => navigate("/")} className="gap-2">
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Button>
-          <img src={logo} alt="Agentcy Logo" className="h-36 opacity-80" />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold">
+                Agent<span className="text-purple-500">cy</span>
+              </h1>
+              <p className="text-xs text-muted-foreground">AI Marketing Platform</p>
+            </div>
+          </div>
           <div className="w-24" /> {/* Spacer for alignment */}
         </div>
       </header>
@@ -196,7 +208,24 @@ export default function ProductCapture() {
                   </CardContent>
                 </Card>
 
-                <Card className="cursor-pointer hover:shadow-xl transition-all border-2 hover:border-blue-300" onClick={() => fileInputRef.current?.click()}>
+                <Card className="cursor-pointer hover:shadow-xl transition-all border-2 hover:border-blue-300" onClick={() => handleStartCapture("video")}>
+                  <CardHeader>
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4">
+                      <Video className="w-8 h-8 text-white" />
+                    </div>
+                    <CardTitle className="text-center">Record Video</CardTitle>
+                    <CardDescription className="text-center">
+                      Record a 360° video of your product
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button className="w-full" size="lg">
+                      Start Recording
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="cursor-pointer hover:shadow-xl transition-all border-2 hover:border-blue-300" onClick={() => navigate("/agent-processing")}>
                   <CardHeader>
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-8 h-8 text-white" />

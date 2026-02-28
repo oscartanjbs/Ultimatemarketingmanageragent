@@ -1,49 +1,27 @@
-import { Link } from "react-router";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { Package, Briefcase, Sparkles, ArrowRight, User, Camera, Video, Wand2, Upload, Brain, Zap, TrendingUp, Target, Globe, Cpu, Network, Shield } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
-import { 
-  Camera, 
-  FileText, 
-  Sparkles, 
-  TrendingUp, 
-  Users, 
-  Zap,
-  ArrowRight,
-  User,
-  Network,
-  Brain,
-  Shield,
-  Radio,
-  Palette,
-  Video,
-  Upload,
-  Briefcase,
-  Target,
-  Globe,
-  Cpu
-} from "lucide-react";
-import { motion, useMotionValue, useSpring } from "motion/react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import logo from "figma:asset/9281815bf476bf8d1fee4962bd415d80a8690ad3.png";
+import { motion } from "motion/react";
 
 const marketingOptions = [
   {
     id: "product",
     title: "Physical Product",
     description: "Capture your product with camera, generate 3D models, and auto-create content for all platforms",
-    icon: Camera,
+    icon: Package,
     color: "from-blue-500 to-cyan-500",
     features: [
       { icon: Camera, text: "Camera capture (photo/video)" },
-      { icon: FileText, text: "AI 3D model generation" },
+      { icon: Cpu, text: "AI 3D model generation" },
       { icon: Video, text: "Auto-generate videos from angles" },
-      { icon: Zap, text: "AI-written descriptions" },
+      { icon: Wand2, text: "AI-written descriptions" },
       { icon: Upload, text: "Auto-upload to all platforms" }
     ],
   },
@@ -149,13 +127,22 @@ export default function Home() {
 
       {/* Header */}
       <header className="border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <motion.div 
             className="flex items-center gap-3"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <img src={logo} alt="Agentcy Logo" className="h-36 opacity-80" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center relative">
+              <Sparkles className="w-6 h-6 text-white" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 blur-lg opacity-50" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold">
+                Agent<span className="text-purple-400">cy</span>
+              </h1>
+              <p className="text-xs text-gray-400">AI Marketing Platform</p>
+            </div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}

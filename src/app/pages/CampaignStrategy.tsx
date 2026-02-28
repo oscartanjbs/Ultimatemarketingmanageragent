@@ -12,24 +12,23 @@ import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Progress } from "../components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
-import productVideo from "figma:asset/5fae46c39ca8fe7c3deb1a6dc03daa9eec8b5b9e.png";
 
 // Mock data - in real app this would come from AI analysis
 const productAnalysis = {
-  productType: "Consumer Electronics",
-  category: "Wireless Headphones",
-  targetAudience: "Tech enthusiasts, 18-35 years old",
-  pricePoint: "Mid-range ($100-$200)",
+  productType: "Fitness & Sports Technology",
+  category: "GPS Running Smartwatch",
+  targetAudience: "Serious runners and triathletes, 25-45 years old",
+  pricePoint: "Premium ($600-$650)",
   keyFeatures: [
-    "Noise cancellation",
-    "Wireless connectivity",
-    "Premium build quality",
-    "Long battery life"
+    "AMOLED touchscreen display",
+    "Training readiness & recovery insights",
+    "Advanced running dynamics",
+    "Multi-band GPS accuracy",
+    "Up to 23 days battery life"
   ],
-  visualStyle: "Modern, minimalist, tech-focused",
-  colorScheme: "Black and silver tones",
-  detectedEmotions: "Professional, aspirational, innovative"
+  visualStyle: "Sporty, premium, performance-focused",
+  colorScheme: "Carbon grey with vibrant yellow accents",
+  detectedEmotions: "Ambitious, athletic, data-driven"
 };
 
 const platformRecommendations = [
@@ -40,117 +39,116 @@ const platformRecommendations = [
     score: 95,
     color: "from-pink-500 to-purple-500",
     reasoning: [
-      "Visual-first platform perfect for product photography",
-      "Target demographic (18-35) highly active on Instagram",
-      "Reels format ideal for 360° product demonstrations",
-      "High engagement rates for tech and lifestyle products"
+      "Perfect platform for showcasing training stats and achievements",
+      "Active running and fitness community (25-45 demographic)",
+      "Reels format ideal for workout highlights and data visualizations",
+      "High engagement rates for fitness and sports technology"
     ],
     contentStrategy: {
       posts: 4,
       reels: 3,
       stories: 8,
-      estimatedReach: "50K-150K"
+      estimatedReach: "80K-200K"
     },
-    bestTimes: ["Mon-Fri: 12PM, 6PM", "Weekend: 10AM, 3PM"],
-    hashtags: ["#TechAccessories", "#WirelessHeadphones", "#AudioGear", "#TechLife"],
-    estimatedEngagement: "8.5%"
+    bestTimes: ["Mon-Fri: 6AM, 12PM, 6PM", "Weekend: 7AM, 5PM"],
+    hashtags: ["#GarminForerunner", "#RunningWatch", "#MarathonTraining", "#TriathlonLife", "#RunningTech"],
+    estimatedEngagement: "9.2%"
   },
   {
     name: "YouTube",
     icon: Youtube,
     priority: "High",
-    score: 92,
+    score: 94,
     color: "from-red-500 to-red-600",
     reasoning: [
-      "Perfect for detailed product reviews and unboxing content",
-      "Tech audience actively searches for product comparisons",
-      "Long-form content builds trust and authority",
-      "Strong SEO potential for product-related searches"
+      "Essential for detailed watch reviews and feature demonstrations",
+      "Runners actively search for GPS watch comparisons",
+      "Long-form content perfect for training metric explanations",
+      "Strong SEO for 'Forerunner 965 review' searches"
     ],
     contentStrategy: {
       videos: 2,
       shorts: 5,
-      estimatedReach: "100K-300K"
+      estimatedReach: "150K-400K"
     },
-    bestTimes: ["Thu-Sat: 2PM-4PM", "Sun: 12PM-2PM"],
-    videoTypes: ["Product Review", "Unboxing", "Comparison", "Tutorial"],
-    estimatedEngagement: "12.3%"
+    bestTimes: ["Wed-Sat: 5PM-7PM", "Sun: 8AM-10AM"],
+    videoTypes: ["In-Depth Review", "Unboxing", "vs Fenix 7/Forerunner 955", "Training Tips"],
+    estimatedEngagement: "13.8%"
   },
   {
     name: "TikTok",
     icon: Play,
-    priority: "Medium",
-    score: 88,
+    priority: "High",
+    score: 89,
     color: "from-black to-gray-700",
     reasoning: [
-      "Young audience aligns with target demographic",
-      "Short-form video format perfect for quick demos",
-      "Trending audio can boost viral potential",
-      "Strong discovery algorithm for new products"
+      "Growing fitness community perfect for watch feature highlights",
+      "Short-form format great for quick training data reveals",
+      "Trending fitness audio boosts viral potential",
+      "Younger athletes discovering premium running watches"
     ],
     contentStrategy: {
-      videos: 6,
-      estimatedReach: "200K-500K"
+      videos: 7,
+      estimatedReach: "300K-700K"
     },
-    bestTimes: ["Daily: 7AM, 12PM, 7PM"],
-    contentIdeas: ["60-sec demo", "Before/after", "Feature highlights", "Lifestyle usage"],
-    estimatedEngagement: "15.7%"
+    bestTimes: ["Daily: 6AM, 12PM, 6PM"],
+    contentIdeas: ["Race day stats reveal", "Battery life challenge", "AMOLED screen showcase", "Training readiness demo"],
+    estimatedEngagement: "17.4%"
   },
   {
     name: "Reddit",
     icon: MessageSquare,
-    priority: "Medium",
-    score: 75,
+    priority: "High",
+    score: 82,
     color: "from-orange-500 to-red-500",
     reasoning: [
-      "Tech-savvy community appreciates detailed information",
-      "r/headphones and r/technology have engaged audiences",
-      "Authentic discussions build brand credibility",
-      "Long-tail traffic from evergreen posts"
+      "Active running and triathlon communities with serious athletes",
+      "r/running, r/triathlon, and r/Garmin are highly engaged",
+      "Detailed discussions drive purchase decisions",
+      "Long-tail traffic from training advice threads"
     ],
     contentStrategy: {
-      posts: 2,
-      communities: ["r/headphones", "r/technology", "r/BuyItForLife"],
-      estimatedReach: "20K-50K"
+      posts: 3,
+      communities: ["r/running", "r/triathlon", "r/Garmin", "r/AdvancedRunning"],
+      estimatedReach: "40K-90K"
     },
-    bestTimes: ["Mon-Fri: 9AM, 1PM EST"],
-    postTypes: ["Product showcase", "AMA thread", "Comparison discussion"],
-    estimatedEngagement: "6.2%"
+    bestTimes: ["Mon-Fri: 7AM, 12PM, 8PM EST"],
+    postTypes: ["Training data showcase", "AMA: Race preparation", "Feature comparison"],
+    estimatedEngagement: "8.7%"
   },
   {
     name: "Twitter/X",
     icon: Twitter,
-    priority: "Low",
-    score: 68,
+    priority: "Medium",
+    score: 71,
     color: "from-blue-400 to-blue-600",
     reasoning: [
-      "Good for brand awareness and announcements",
-      "Tech community active but less visual-focused",
-      "Quick updates and customer engagement",
-      "Limited long-form content support"
+      "Active running community and race day updates",
+      "Great for sharing PRs and training achievements",
+      "Garmin and running influencers highly engaged",
+      "Real-time race tracking and stats sharing"
     ],
     contentStrategy: {
-      tweets: 10,
-      threads: 2,
-      estimatedReach: "30K-80K"
+      tweets: 12,
+      threads: 3,
+      estimatedReach: "50K-120K"
     },
-    bestTimes: ["Mon-Fri: 9AM, 1PM, 5PM"],
-    contentTypes: ["Product announcement", "Feature highlights", "User testimonials"],
-    estimatedEngagement: "2.8%"
+    bestTimes: ["Mon-Fri: 6AM, 12PM, 6PM"],
+    contentTypes: ["Race stats reveals", "Training insights", "Feature highlights"],
+    estimatedEngagement: "3.9%"
   }
 ];
 
 const trendingTopics = [
-  { tag: "#WirelessAudio", volume: "245K posts", trend: "+32%" },
-  { tag: "#TechReview", volume: "892K posts", trend: "+18%" },
-  { tag: "#AudioGear", volume: "156K posts", trend: "+45%" },
-  { tag: "#ProductivityTech", volume: "423K posts", trend: "+12%" }
+  { tag: "#MarathonTraining", volume: "1.2M posts", trend: "+28%" },
+  { tag: "#RunningWatch", volume: "456K posts", trend: "+42%" },
+  { tag: "#TriathlonLife", volume: "328K posts", trend: "+35%" },
+  { tag: "#GarminForerunner", volume: "187K posts", trend: "+51%" }
 ];
 
 export default function CampaignStrategy() {
   const navigate = useNavigate();
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Instagram", "YouTube"]);
-  const [showVideoDialog, setShowVideoDialog] = useState(false);
 
   const togglePlatform = (platform: string) => {
     if (selectedPlatforms.includes(platform)) {
@@ -170,7 +168,7 @@ export default function CampaignStrategy() {
   };
 
   // Mock image - in real app this would be the actual uploaded image
-  const productImage = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80";
+  const productImage = "https://images.unsplash.com/photo-1750776100861-30c172651817?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxHYXJtaW4lMjBGb3JlcnVubmVyJTIwOTY1JTIwcnVubmluZyUyMHdhdGNofGVufDF8fHx8MTc3MjI4NjM3MXww&ixlib=rb-4.1.0&q=80&w=1080";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
@@ -223,29 +221,21 @@ export default function CampaignStrategy() {
                 <CardTitle className="text-lg">Your Product</CardTitle>
               </CardHeader>
               <CardContent>
-                <div 
-                  className="aspect-square rounded-lg overflow-hidden mb-4 cursor-pointer hover:opacity-90 transition-opacity relative group"
-                  onClick={() => setShowVideoDialog(true)}
-                >
+                <div className="aspect-square rounded-lg overflow-hidden mb-4">
                   <img 
                     src={productImage} 
                     alt="Product" 
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
-                      <Play className="w-8 h-8 text-white" />
-                    </div>
-                  </div>
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" className="flex-1">
                     <Camera className="w-4 h-4 mr-2" />
                     Retake
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1" onClick={() => setShowVideoDialog(true)}>
-                    <Play className="w-4 h-4 mr-2" />
-                    Preview
+                  <Button variant="outline" size="sm" className="flex-1">
+                    <ImageIcon className="w-4 h-4 mr-2" />
+                    Edit
                   </Button>
                 </div>
               </CardContent>
@@ -503,27 +493,6 @@ export default function CampaignStrategy() {
           </div>
         </div>
       </div>
-
-      {/* Video Dialog */}
-      <Dialog open={showVideoDialog} onOpenChange={setShowVideoDialog}>
-        <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>Product Video Preview</DialogTitle>
-          </DialogHeader>
-          <div className="mt-4">
-            <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-              <video 
-                src={productVideo} 
-                controls
-                autoPlay
-                className="w-full h-full"
-              >
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

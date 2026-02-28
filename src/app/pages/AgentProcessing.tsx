@@ -7,7 +7,6 @@ import {
 import { Card, CardContent } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
 import { motion, AnimatePresence } from "motion/react";
-import logo from "figma:asset/9281815bf476bf8d1fee4962bd415d80a8690ad3.png";
 
 type Agent = {
   id: string;
@@ -177,8 +176,18 @@ export default function AgentProcessing() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-center">
-          <img src={logo} alt="Agentcy Logo" className="h-36 opacity-80" />
+        <div className="container mx-auto px-4 py-4 flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold">
+                Agent<span className="text-purple-500">cy</span>
+              </h1>
+              <p className="text-xs text-muted-foreground">AI Marketing Platform</p>
+            </div>
+          </div>
         </div>
       </header>
 
