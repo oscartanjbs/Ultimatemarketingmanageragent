@@ -23,6 +23,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Create demo account if it doesn't exist
+    const usersJson = localStorage.getItem("agentcy_users");
+    const users = usersJson ? JSON.parse(usersJson) : [];
+    
+    if (!users.find((u: any) => u.email === "demo@agentcy.com")) {
+      users.push({
+        id: "demo_user",
+        name: "Demo User",
+        email: "demo@agentcy.com",
+        password: "demo123",
+        createdAt: new Date().toISOString(),
+      });
+      localStorage.setItem("agentcy_users", JSON.stringify(users));
+    }
+
     // Check if user is already logged in
     const storedUser = localStorage.getItem("agentcy_user");
     if (storedUser) {

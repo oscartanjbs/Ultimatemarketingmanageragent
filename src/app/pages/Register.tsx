@@ -41,7 +41,7 @@ export default function Register() {
     try {
       const success = await register(name, email, password);
       if (success) {
-        navigate("/dashboard", { replace: true });
+        navigate("/", { replace: true });
       } else {
         setError("Email already registered");
       }

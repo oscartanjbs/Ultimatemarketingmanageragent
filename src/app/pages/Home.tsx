@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-import { Sparkles, Camera, Upload, ArrowRight, Zap, TrendingUp, Target, Users, Building2, Package, Video, Brain, Cpu, Network, Shield, Globe, User } from "lucide-react";
+import { Sparkles, Camera, Upload, ArrowRight, Zap, TrendingUp, Target, Users, Building2, Package, Video, Brain, Cpu, Network, Shield, Globe, User, LogOut } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../components/ui/dialog";
@@ -9,6 +9,7 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { motion } from "motion/react";
+import { useAuth } from "../contexts/AuthContext";
 import Footer from "../components/Footer";
 
 const marketingOptions = [
@@ -93,6 +94,7 @@ export default function Home() {
   const [showForm, setShowForm] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -155,12 +157,33 @@ export default function Home() {
                 Pricing
               </Button>
             </Link>
-            <Link to="/dashboard">
-              <Button variant="outline" className="gap-2 border-white/20 bg-white/5 hover:bg-white/10 text-white">
-                <User className="w-4 h-4" />
-                My Account
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard">
+                  <Button variant="outline" className="gap-2 border-white/20 bg-white/5 hover:bg-white/10 text-white">
+                    <User className="w-4 h-4" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button variant="ghost" className="gap-2 text-white hover:bg-white/10" onClick={logout}>
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" className="gap-2 text-white hover:bg-white/10">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button className="gap-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </motion.div>
         </div>
       </header>

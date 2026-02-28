@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Settings, AlertTriangle, Circle, Cookie } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Button } from "./ui/button";
 
 export default function DisclaimerDialog() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check if user has already accepted the disclaimer
@@ -27,18 +29,28 @@ export default function DisclaimerDialog() {
 
   const handleCookiePolicyClick = () => {
     setOpen(false);
+    localStorage.setItem("agentcy-disclaimer-accepted", "true");
     // Use setTimeout to ensure dialog closes before navigation
     setTimeout(() => {
-      window.location.href = "/cookies-policy";
+      navigate("/cookies-policy");
     }, 100);
   };
 
+  const handleOpenChange = (newOpen: boolean) => {
+    // Allow closing only if user has accepted before
+    const hasAccepted = localStorage.getItem("agentcy-disclaimer-accepted");
+    if (!newOpen && hasAccepted) {
+      setOpen(false);
+    } else if (!newOpen && !hasAccepted) {
+      // If trying to close without accepting, treat as decline
+      handleDecline();
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent 
         className="max-w-3xl bg-black border-2 border-white/20 text-white max-h-[90vh] overflow-y-auto"
-        onInteractOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader className="space-y-4">
           <div className="flex items-center gap-4">
