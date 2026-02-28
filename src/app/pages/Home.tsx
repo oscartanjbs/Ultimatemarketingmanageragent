@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-import { Package, Briefcase, Sparkles, ArrowRight, User, Camera, Video, Wand2, Upload, Brain, Zap, TrendingUp, Target, Globe, Cpu, Network, Shield } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/card";
+import { Sparkles, Camera, Upload, ArrowRight, Zap, TrendingUp, Target, Users, Building2, Package, Video, Brain, Cpu, Network, Shield, Globe, User } from "lucide-react";
 import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../components/ui/dialog";
-import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { motion } from "motion/react";
+import Footer from "../components/Footer";
 
 const marketingOptions = [
   {
@@ -19,9 +20,9 @@ const marketingOptions = [
     color: "from-blue-500 to-cyan-500",
     features: [
       { icon: Camera, text: "Camera capture (photo/video)" },
-      { icon: Cpu, text: "AI 3D model generation" },
+      { icon: Upload, text: "AI 3D model generation" },
       { icon: Video, text: "Auto-generate videos from angles" },
-      { icon: Wand2, text: "AI-written descriptions" },
+      { icon: Zap, text: "AI-written descriptions" },
       { icon: Upload, text: "Auto-upload to all platforms" }
     ],
   },
@@ -29,14 +30,14 @@ const marketingOptions = [
     id: "service",
     title: "Service or Business",
     description: "Grow your service-based business and attract more clients across all marketing channels",
-    icon: Briefcase,
+    icon: Building2,
     color: "from-purple-500 to-pink-500",
     features: [
       { icon: Target, text: "Lead generation campaigns" },
       { icon: Sparkles, text: "Professional branding" },
       { icon: TrendingUp, text: "Case study showcases" },
       { icon: Zap, text: "Email nurture sequences" },
-      { icon: Globe, text: "Multi-platform social strategy" }
+      { icon: Users, text: "Multi-platform social strategy" }
     ],
   }
 ];
@@ -147,7 +148,13 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3"
           >
+            <Link to="/pricing">
+              <Button variant="ghost" className="gap-2 text-white hover:bg-white/10">
+                Pricing
+              </Button>
+            </Link>
             <Link to="/dashboard">
               <Button variant="outline" className="gap-2 border-white/20 bg-white/5 hover:bg-white/10 text-white">
                 <User className="w-4 h-4" />
@@ -470,7 +477,7 @@ export default function Home() {
                 className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white" 
                 asChild
               >
-                <Link to="/dashboard">
+                <Link to="/publishing-flow">
                   <Sparkles className="w-4 h-4 mr-2" />
                   Generate Campaign
                 </Link>
@@ -479,6 +486,9 @@ export default function Home() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

@@ -242,7 +242,7 @@ export default function ProductCapture() {
                   </CardContent>
                 </Card>
 
-                <Card className="cursor-pointer hover:shadow-xl transition-all border-2 hover:border-purple-500/50 bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10" onClick={() => navigate("/agent-processing")}>
+                <Card className="cursor-pointer hover:shadow-xl transition-all border-2 hover:border-purple-500/50 bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10" onClick={() => fileInputRef.current?.click()}>
                   <CardHeader>
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-8 h-8 text-white" />
@@ -294,9 +294,13 @@ export default function ProductCapture() {
                         variant="outline" 
                         size="sm" 
                         onClick={() => {
+                          stopCamera(); // Make sure camera is stopped first
                           setCaptureMode(null);
                           setCameraError(null);
-                          fileInputRef.current?.click();
+                          // Use setTimeout to ensure state updates complete before triggering file input
+                          setTimeout(() => {
+                            fileInputRef.current?.click();
+                          }, 100);
                         }}
                         className="mt-2"
                       >
